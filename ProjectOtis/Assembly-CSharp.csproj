@@ -45,9 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\BushScript.cs" />
      <Compile Include="Assets\Script\DoorScript.cs" />
      <Compile Include="Assets\Script\KeyScript.cs" />
      <Compile Include="Assets\Script\PlayerScript.cs" />
+     <Compile Include="Assets\Script\WaterSpot_Script.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
