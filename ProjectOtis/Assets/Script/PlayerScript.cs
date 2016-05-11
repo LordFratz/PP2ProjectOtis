@@ -63,4 +63,13 @@ public class PlayerScript : MonoBehaviour {
 	{
 		return KeyID;
 	}
+
+	public void SlowPlayer()
+	{
+		Speed = .065f;
+	}
+	public void NormSpeedPlayer()
+	{
+		Speed = .1f;
+	}
 }
