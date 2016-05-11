@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - KeyTag
+  - PlayerTag
   layers:
   - Default
   - TransparentFX
@@ -13,8 +15,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - groundLayer
+  - playerLayer
   - 
   - 
   - 
@@ -40,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GroundSetKey
+    uniqueID: 3819936319
+    locked: 0
+  - name: PlayerSorting
+    uniqueID: 3010007083
     locked: 0
