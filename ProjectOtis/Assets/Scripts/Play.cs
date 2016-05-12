@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Play : MonoBehaviour {
+public class Play : MonoBehaviour
+{
+
+    [SerializeField] private float health;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    health = 100.0f;
 	}
 	
 	// Update is called once per frame
@@ -27,5 +31,10 @@ public class Play : MonoBehaviour {
             transform.position = new Vector3(transform.position.x, transform.position.y - 0.02f, transform.position.z);
         }
 
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
     }
 }

@@ -8,22 +8,27 @@ public class BaseEnemy : MonoBehaviour {
 
     enum Enemy { RobotMan = 0, RobotDog = 1 };
 
-    [SerializeField]
-    float heading;
+    [SerializeField] private float heading;
     float timer;
     float wanderingtime;
+    private float turntime;
     int random;
-    [SerializeField]
-    bool followMode;
+    [SerializeField] private bool followMode;
+    [SerializeField] private bool BreadMode;
+    [SerializeField] private bool AlertMode;
+    [SerializeField] private bool InvestigateMode;
     Collider2D player;
+    private Vector3 playerlastknown;
+    [SerializeField] private float Basespeed;
+    [SerializeField] private float AlertMax;
+    private float speed;
 
-    [SerializeField]
-    float speed;
-
-    float alertamount;
+    [SerializeField] float alertamount;
 
     Dictionary<int,Vector3> path = new Dictionary<int,Vector3>();
+    Dictionary<int, Vector3> breadcrumbs = new Dictionary<int, Vector3>();
     int currentpoint;
+    private int currentbreadcrumb;
 
     [SerializeField]
     Enemy type;
@@ -31,8 +36,11 @@ public class BaseEnemy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         alertamount = 0.0f;
+	    AlertMax = 30.0f;
         heading = 0.0f;
+	    speed = Basespeed;
         currentpoint = 0;
+	    currentbreadcrumb = 0;
         timer = 0;
         wanderingtime = 0;
         followMode = false;
@@ -41,27 +49,38 @@ public class BaseEnemy : MonoBehaviour {
         path.Add(0, temp);
         temp.Set(2, 2, 0);
         path.Add(1, temp);
-        //path.Add(0, transform.position);
-    }
+        breadcrumbs.Add(0, new Vector3(0,0));
+	    
+	    //path.Add(0, transform.position);
+	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (alertamount >= 10)
+        if (AlertMode)
+        {
+            alertamount += 0.1f;
+        }
+	    //if (alertamount > AlertMax / 2 && InvestigateMode)
+	    //{
+     //       Investigate();
+	    //    return;
+	    //}
+        if (alertamount >= AlertMax)
         {
             switch (type)
             {
                 case Enemy.RobotMan:
+                    speed = Basespeed * 1.25f;
                     break;
                 case Enemy.RobotDog:
-                    speed *= 2;
+                    speed = Basespeed * 2;
                     break;
                 default:
                     break;
             }
 
         }
-        else if(followMode)
+        if(followMode)
         {
             if(wanderingtime > 0)
             {
@@ -69,6 +88,11 @@ public class BaseEnemy : MonoBehaviour {
                 return;
             }
             Following();
+            return;
+        }
+        else if (BreadMode)
+        {
+            Breading();
             return;
         }
         else
@@ -96,6 +120,9 @@ public class BaseEnemy : MonoBehaviour {
             heading += 1f;
             CorrectHeading();
         }
+        var rotationVector = transform.rotation.eulerAngles;
+        rotationVector.z = heading;
+        transform.rotation = Quaternion.Euler(rotationVector);
     }
 
     void Following()
@@ -109,6 +136,8 @@ public class BaseEnemy : MonoBehaviour {
         rotationVector.z = heading;
         transform.rotation = Quaternion.Euler(rotationVector);
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        currentbreadcrumb++;
+        breadcrumbs.Add(currentbreadcrumb, transform.position);
     }
 
     void Wandering()
@@ -117,12 +146,45 @@ public class BaseEnemy : MonoBehaviour {
         if (wanderingtime <= 0)
         {
             followMode = false;
+            BreadMode = true;
         }
-        Standstill();
+        Standstill(); //replace with future implementation
         var rotationVector = transform.rotation.eulerAngles;
         rotationVector.z = heading;
         transform.rotation = Quaternion.Euler(rotationVector);
+        currentbreadcrumb++;
+        breadcrumbs.Add(currentbreadcrumb, transform.position);
     }
+
+    void Breading()
+    {
+        while(transform.position == breadcrumbs[currentbreadcrumb])
+        {
+            breadcrumbs.Remove(currentbreadcrumb);
+            currentbreadcrumb--;
+            if (currentbreadcrumb <= 0)
+            {
+                BreadMode = false;
+                return;
+            }
+        }
+
+        Vector3 vectorToTarget = (breadcrumbs[currentbreadcrumb] - transform.position).normalized;
+        heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
+        CorrectHeading();
+        transform.position = Vector3.MoveTowards(transform.position, breadcrumbs[currentbreadcrumb], Time.deltaTime * speed);
+    }
+
+    //void Investigate()
+    //{
+    //    Vector3 vectorToTarget = (playerlastknown - transform.position).normalized;
+    //    heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+    //    Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
+    //    CorrectHeading();
+    //}
 
     void Patrolling()
     {
@@ -159,7 +221,7 @@ public class BaseEnemy : MonoBehaviour {
             Vector3 vectorToTarget = (path[currentpoint] - transform.position).normalized;
             heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
             CorrectHeading();
 
         }
@@ -167,10 +229,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void BaseMove()
     {
-        var rotationVector = transform.rotation.eulerAngles;
-        rotationVector.z = heading;
-        transform.rotation = Quaternion.Euler(rotationVector);
-        transform.position = Vector3.MoveTowards(transform.position, path[currentpoint], speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, path[currentpoint], Time.deltaTime * speed);
     }
 
     void CorrectHeading()
@@ -185,20 +244,43 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
+    //public void AddAlertBySound(float sound, Vector3 playerPos)
+    //{
+    //    playerlastknown = playerPos;
+    //    alertamount += sound;
+    //    if (alertamount > AlertMax / 2)
+    //    {
+    //        InvestigateMode = true;
+    //    }
+    //}
+
     void OnTriggerEnter2D(Collider2D obj)
     {
         if(obj.gameObject.tag == "Player")
         {
             followMode = true;
+            InvestigateMode = false;
+            AlertMode = true;
+            
+            wanderingtime = 0;
             player = obj;
         }
+        //else if (obj.gameObject.tag == "wall")
+        //{
+        //    if (InvestigateMode)
+        //    {
+        //        InvestigateMode = false;
+        //    }
+        //}
     }
 
     void OnTriggerExit2D(Collider2D obj)
     {
         if (obj.gameObject.tag == "Player")
         {
+            AlertMode = false;
             wanderingtime = Random.Range(3,8);
+            playerlastknown = player.transform.position;
         }
     }
 }
