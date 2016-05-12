@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{604C3FCF-D0A1-F783-26C9-0D53CBA0D191}") = "ProjectOttis_Maps", "Assembly-CSharp.csproj", "{2FA31114-6AAD-A282-F951-83E6B4754151}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FA31114-6AAD-A282-F951-83E6B4754151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA31114-6AAD-A282-F951-83E6B4754151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA31114-6AAD-A282-F951-83E6B4754151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA31114-6AAD-A282-F951-83E6B4754151}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,393 @@
+fileFormatVersion: 2
+guid: be83f6362aac66e46a1130ea631476c3
+timeCreated: 1462923144
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: SC-Door-Arch01_zps1bd57433_0
+    21300002: SC-Door-Arch01_zps1bd57433_1
+    21300004: SC-Door-Arch01_zps1bd57433_2
+    21300006: SC-Door-Arch01_zps1bd57433_3
+    21300008: SC-Door-Arch01_zps1bd57433_4
+    21300010: SC-Door-Arch01_zps1bd57433_5
+    21300012: SC-Door-Arch01_zps1bd57433_6
+    21300014: SC-Door-Arch01_zps1bd57433_7
+    21300016: SC-Door-Arch01_zps1bd57433_8
+    21300018: SC-Door-Arch01_zps1bd57433_9
+    21300020: SC-Door-Arch01_zps1bd57433_10
+    21300022: SC-Door-Arch01_zps1bd57433_11
+    21300024: SC-Door-Arch01_zps1bd57433_12
+    21300026: SC-Door-Arch01_zps1bd57433_13
+    21300028: SC-Door-Arch01_zps1bd57433_14
+    21300030: SC-Door-Arch01_zps1bd57433_15
+    21300032: SC-Door-Arch01_zps1bd57433_16
+    21300034: SC-Door-Arch01_zps1bd57433_17
+    21300036: SC-Door-Arch01_zps1bd57433_18
+    21300038: SC-Door-Arch01_zps1bd57433_19
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: SC-Door-Arch01_zps1bd57433_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 288
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_1
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 288
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_2
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 288
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_3
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 288
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_4
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 192
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_5
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 192
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_6
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 192
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 40}
+        - {x: -25, y: 38}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 34}
+        - {x: 19, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_7
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 192
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 40}
+        - {x: -25, y: 38}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 34}
+        - {x: 19, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_8
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 134
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: SC-Door-Arch01_zps1bd57433_9
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 96
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_10
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 134
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: SC-Door-Arch01_zps1bd57433_11
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 96
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_12
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 96
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_13
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 96
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_14
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 38
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: SC-Door-Arch01_zps1bd57433_15
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 0
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_16
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 38
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: SC-Door-Arch01_zps1bd57433_17
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 0
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_18
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 0
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    - name: SC-Door-Arch01_zps1bd57433_19
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 0
+        width: 50
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 40}
+        - {x: -25, y: 34}
+        - {x: -25, y: -40}
+        - {x: 25, y: -40}
+        - {x: 25, y: 30}
+        - {x: 17, y: 40}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
