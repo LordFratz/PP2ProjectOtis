@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\PlayerScript.cs">
     <Files>
-      <File FileName="Assets\Script\PlayerScript.cs" Line="113" Column="16" />
-      <File FileName="Assets\Script\KeyScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\DoorScript.cs" Line="12" Column="40" />
+      <File FileName="Assets\Script\PlayerScript.cs" Line="171" Column="3" />
+      <File FileName="Assets\Script\Bar_Script.cs" Line="1" Column="1" />
+      <File FileName="Assets\Over_All_Awareness_Bar_Script.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -45,6 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Over_All_Awareness_Bar_Script.cs" />
+     <Compile Include="Assets\Script\Bar_Script.cs" />
      <Compile Include="Assets\Script\BushScript.cs" />
      <Compile Include="Assets\Script\DoorScript.cs" />
      <Compile Include="Assets\Script\KeyScript.cs" />
