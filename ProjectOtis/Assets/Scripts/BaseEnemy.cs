@@ -179,22 +179,20 @@ public class BaseEnemy : MonoBehaviour {
             {
                 CurrentMode = Modes.BreadMode;
             }
+            Standstill();
+            currentbreadcrumb++;
+            breadcrumbs.Add(currentbreadcrumb, transform.position);
         }
         else
         {
             wanderingtime -= Time.deltaTime;
             if (wanderingtime <= 0)
             {
+                Vector3 ranvec = new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), 0);
+                RotateTo(ranvec);
+                transform.position = Vector3.MoveTowards(transform.position, ranvec, Time.deltaTime * speed);
                 wanderingtime = 3.0f;
             }
-        }
-        Vector3 ranvec = new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), 0);
-        RotateTo(ranvec);
-        transform.position = Vector3.MoveTowards(transform.position, ranvec, Time.deltaTime * speed);
-        if (CurrentMode != Modes.AlertMode)
-        {
-            currentbreadcrumb++;
-            breadcrumbs.Add(currentbreadcrumb, transform.position);
         }
     }
 
