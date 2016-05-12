@@ -8,33 +8,50 @@ public class BaseEnemy : MonoBehaviour {
 
     enum Enemy { RobotMan = 0, RobotDog = 1 };
 
+    enum Modes { BaseMode = 0, FollowMode = 1, WanderingMode = 2, BreadMode = 3, InvestigateMode = 4, AlertMode = 5 };
+
+    [SerializeField]
+    Enemy type;
+
+    private Modes CurrentMode;
+
     [SerializeField] private float heading;
+
+    //stats
+    private float Basespeed;
+    private float AlertMax;
+    [SerializeField] private float alertamount;
+
+
+    private Vector3 playerlastknown;
+    Collider2D player;
     float timer;
     float wanderingtime;
-    private float turntime;
     int random;
-    [SerializeField] private bool followMode;
-    [SerializeField] private bool BreadMode;
-    [SerializeField] private bool AlertMode;
-    [SerializeField] private bool InvestigateMode;
-    Collider2D player;
-    private Vector3 playerlastknown;
-    [SerializeField] private float Basespeed;
-    [SerializeField] private float AlertMax;
     private float speed;
 
-    [SerializeField] float alertamount;
-
+    //pathing
     Dictionary<int,Vector3> path = new Dictionary<int,Vector3>();
     Dictionary<int, Vector3> breadcrumbs = new Dictionary<int, Vector3>();
     int currentpoint;
     private int currentbreadcrumb;
 
-    [SerializeField]
-    Enemy type;
+    //Path sets
+    [SerializeField] private Vector3 coord1;
+    [SerializeField] private Vector3 coord2;
+    [SerializeField] private Vector3 coord3;
+    [SerializeField] private Vector3 coord4;
+    [SerializeField] private Vector3 coord5;
+    [SerializeField] private Vector3 coord6;
+    [SerializeField] private Vector3 coord7;
+    [SerializeField] private Vector3 coord8;
+    [SerializeField] private Vector3 coord9;
+    [SerializeField] private Vector3 coord10;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start ()
+    {
+        speed = Basespeed = 0.5f;
         alertamount = 0.0f;
 	    AlertMax = 30.0f;
         heading = 0.0f;
@@ -43,63 +60,41 @@ public class BaseEnemy : MonoBehaviour {
 	    currentbreadcrumb = 0;
         timer = 0;
         wanderingtime = 0;
-        followMode = false;
-        Vector3 temp = transform.position;
-        temp.Set(4,4,0);
-        path.Add(0, temp);
-        temp.Set(2, 2, 0);
-        path.Add(1, temp);
-        breadcrumbs.Add(0, new Vector3(0,0));
-	    
-	    //path.Add(0, transform.position);
-	}
+        SetPaths();
+        breadcrumbs.Add(0, new Vector3(0, 0, 1));
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (AlertMode)
-        {
-            alertamount += 0.1f;
-        }
-	    //if (alertamount > AlertMax / 2 && InvestigateMode)
-	    //{
-     //       Investigate();
-	    //    return;
-	    //}
-        if (alertamount >= AlertMax)
-        {
-            switch (type)
-            {
-                case Enemy.RobotMan:
-                    speed = Basespeed * 1.25f;
-                    break;
-                case Enemy.RobotDog:
-                    speed = Basespeed * 2;
-                    break;
-                default:
-                    break;
-            }
-
-        }
-        if(followMode)
-        {
-            if(wanderingtime > 0)
-            {
+	    switch (CurrentMode)
+	    {
+	        case Modes.BaseMode:
+                Patrolling();
+	            break;
+            case Modes.FollowMode:
+                Following();
+	            break;
+            case Modes.WanderingMode:
                 Wandering();
-                return;
-            }
-            Following();
-            return;
-        }
-        else if (BreadMode)
-        {
-            Breading();
-            return;
-        }
-        else
-        {
-            Patrolling();
-        }
-        BaseMove();
+	            break;
+            case Modes.BreadMode:
+                Breading();
+	            break;
+            case Modes.InvestigateMode:
+                //To be implemented
+	            break;
+            case Modes.AlertMode:
+	            switch (type)
+	            {
+	                case Enemy.RobotMan:
+	                    speed = Basespeed * 1.25f;
+	                    break;
+                    case Enemy.RobotDog:
+	                    speed = Basespeed * 2.0f;
+	                    break;
+	            }
+	            break;
+	    }
     }
 
     void Standstill()
@@ -127,10 +122,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Following()
     {
-        Vector3 vectorToTarget = (player.transform.position - transform.position).normalized;
-        heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-        Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed);
+        RotateTo(player.transform.position);
 
         var rotationVector = transform.rotation.eulerAngles;
         rotationVector.z = heading;
@@ -145,8 +137,7 @@ public class BaseEnemy : MonoBehaviour {
         wanderingtime -= Time.deltaTime;
         if (wanderingtime <= 0)
         {
-            followMode = false;
-            BreadMode = true;
+            CurrentMode = Modes.BreadMode;
         }
         Standstill(); //replace with future implementation
         var rotationVector = transform.rotation.eulerAngles;
@@ -164,16 +155,11 @@ public class BaseEnemy : MonoBehaviour {
             currentbreadcrumb--;
             if (currentbreadcrumb <= 0)
             {
-                BreadMode = false;
+                CurrentMode = Modes.BaseMode;
                 return;
             }
         }
-
-        Vector3 vectorToTarget = (breadcrumbs[currentbreadcrumb] - transform.position).normalized;
-        heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-        Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
-        CorrectHeading();
+        RotateTo(breadcrumbs[currentbreadcrumb]);
         transform.position = Vector3.MoveTowards(transform.position, breadcrumbs[currentbreadcrumb], Time.deltaTime * speed);
     }
 
@@ -200,11 +186,7 @@ public class BaseEnemy : MonoBehaviour {
             }
             else
             {
-                Vector3 vectorToTarget = (path[0] - transform.position).normalized;
-                heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-                Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed);
-                CorrectHeading();
+                RotateTo(path[0]);
             }
         }
         else
@@ -217,18 +199,8 @@ public class BaseEnemy : MonoBehaviour {
                     currentpoint = 0;
                 }
             }
-
-            Vector3 vectorToTarget = (path[currentpoint] - transform.position).normalized;
-            heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-            Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
-            CorrectHeading();
-
+            RotateTo(path[currentpoint]);
         }
-    }
-
-    void BaseMove()
-    {
         transform.position = Vector3.MoveTowards(transform.position, path[currentpoint], Time.deltaTime * speed);
     }
 
@@ -242,6 +214,15 @@ public class BaseEnemy : MonoBehaviour {
         {
             heading = 360f - heading;
         }
+    }
+
+    void RotateTo(Vector3 pos)
+    {
+        Vector3 vectorToTarget = (pos - transform.position).normalized;
+        heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
+        CorrectHeading();
     }
 
     //public void AddAlertBySound(float sound, Vector3 playerPos)
@@ -258,29 +239,75 @@ public class BaseEnemy : MonoBehaviour {
     {
         if(obj.gameObject.tag == "Player")
         {
-            followMode = true;
-            InvestigateMode = false;
-            AlertMode = true;
-            
+            CurrentMode = Modes.FollowMode;
             wanderingtime = 0;
             player = obj;
         }
-        //else if (obj.gameObject.tag == "wall")
-        //{
-        //    if (InvestigateMode)
-        //    {
-        //        InvestigateMode = false;
-        //    }
-        //}
     }
 
     void OnTriggerExit2D(Collider2D obj)
     {
         if (obj.gameObject.tag == "Player")
         {
-            AlertMode = false;
+            CurrentMode = Modes.WanderingMode;
             wanderingtime = Random.Range(3,8);
             playerlastknown = player.transform.position;
         }
+    }
+
+    void SetPaths()
+    {
+        Vector3 temp = new Vector3(0,0,0);
+        if (coord1 != temp)
+        {
+            path.Add(currentpoint, coord1);
+            currentpoint++;
+        }
+        if (coord2 != temp)
+        {
+            path.Add(currentpoint, coord2);
+            currentpoint++;
+        }
+        if (coord3 != temp)
+        {
+            path.Add(currentpoint, coord3);
+            currentpoint++;
+        }
+        if (coord4 != temp)
+        {
+            path.Add(currentpoint, coord4);
+            currentpoint++;
+        }
+        if (coord5 != temp)
+        {
+            path.Add(currentpoint, coord5);
+            currentpoint++;
+        }
+        if (coord6 != temp)
+        {
+            path.Add(currentpoint, coord6);
+            currentpoint++;
+        }
+        if (coord7 != temp)
+        {
+            path.Add(currentpoint, coord7);
+            currentpoint++;
+        }
+        if (coord8 != temp)
+        {
+            path.Add(currentpoint, coord8);
+            currentpoint++;
+        }
+        if (coord9 != temp)
+        {
+            path.Add(currentpoint, coord9);
+            currentpoint++;
+        }
+        if (coord10 != temp)
+        {
+            path.Add(currentpoint, coord10);
+            currentpoint++;
+        }
+        currentpoint = 0;
     }
 }

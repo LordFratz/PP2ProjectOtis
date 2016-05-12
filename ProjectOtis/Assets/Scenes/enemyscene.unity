@@ -128,6 +128,62 @@ Prefab:
       propertyPath: m_Name
       value: Enemytest
       objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord1.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord2.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord4.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord3.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord5.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord6.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord7.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord8.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord9.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord10.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord1.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord1.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord2.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407404, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
+      propertyPath: coord2.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88a83d4ceab406b469f01527c7e3b41b, type: 2}
   m_IsPrefabParent: 0
