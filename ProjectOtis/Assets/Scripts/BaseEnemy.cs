@@ -27,8 +27,12 @@ public class BaseEnemy : MonoBehaviour {
     Collider2D player;
     float timer;
     float wanderingtime;
+    private float robomantimer;
     int random;
     private float speed;
+    public float damage;
+    private bool decay;
+    private bool PermaFollow;
 
     //pathing
     Dictionary<int,Vector3> path = new Dictionary<int,Vector3>();
@@ -53,9 +57,21 @@ public class BaseEnemy : MonoBehaviour {
     {
         speed = Basespeed = 0.5f;
         alertamount = 0.0f;
-	    AlertMax = 30.0f;
+	    AlertMax = 10.0f;
         heading = 0.0f;
+        robomantimer = 0;
+        decay = true;
+        PermaFollow = false;
 	    speed = Basespeed;
+        switch (type)
+        {
+            case Enemy.RobotMan:
+                damage = 20.0f;
+                break;
+            case Enemy.RobotDog:
+                damage = 10.0f;
+                break;
+        }
         currentpoint = 0;
 	    currentbreadcrumb = 0;
         timer = 0;
@@ -66,6 +82,26 @@ public class BaseEnemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	    if (decay)
+	    {
+	        alertamount -= 0.05f;
+	        if (alertamount <= 0)
+	        {
+	            alertamount = 0;
+	        }
+	    }
+	    if (alertamount >= AlertMax - 1)
+	    {
+            switch (type)
+            {
+                case Enemy.RobotMan:
+                    ManSpeed();
+                    break;
+                case Enemy.RobotDog:
+                    speed = Basespeed * 2.0f;
+                    break;
+            }
+        }
 	    switch (CurrentMode)
 	    {
 	        case Modes.BaseMode:
@@ -84,15 +120,9 @@ public class BaseEnemy : MonoBehaviour {
                 //To be implemented
 	            break;
             case Modes.AlertMode:
-	            switch (type)
-	            {
-	                case Enemy.RobotMan:
-	                    speed = Basespeed * 1.25f;
-	                    break;
-                    case Enemy.RobotDog:
-	                    speed = Basespeed * 2.0f;
-	                    break;
-	            }
+	            if(PermaFollow)
+                    Following();
+                else Wandering();
 	            break;
 	    }
     }
@@ -128,23 +158,44 @@ public class BaseEnemy : MonoBehaviour {
         rotationVector.z = heading;
         transform.rotation = Quaternion.Euler(rotationVector);
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-        currentbreadcrumb++;
-        breadcrumbs.Add(currentbreadcrumb, transform.position);
+        if (CurrentMode != Modes.AlertMode)
+        {
+            currentbreadcrumb++;
+            breadcrumbs.Add(currentbreadcrumb, transform.position);
+            alertamount += 0.1f;
+            if (alertamount >= AlertMax)
+            {
+                alertamount = AlertMax;
+            }
+        }
     }
 
     void Wandering()
     {
-        wanderingtime -= Time.deltaTime;
-        if (wanderingtime <= 0)
+        if (CurrentMode != Modes.AlertMode)
         {
-            CurrentMode = Modes.BreadMode;
+            wanderingtime -= Time.deltaTime;
+            if (wanderingtime <= 0)
+            {
+                CurrentMode = Modes.BreadMode;
+            }
         }
-        Standstill(); //replace with future implementation
-        var rotationVector = transform.rotation.eulerAngles;
-        rotationVector.z = heading;
-        transform.rotation = Quaternion.Euler(rotationVector);
-        currentbreadcrumb++;
-        breadcrumbs.Add(currentbreadcrumb, transform.position);
+        else
+        {
+            wanderingtime -= Time.deltaTime;
+            if (wanderingtime <= 0)
+            {
+                wanderingtime = 3.0f;
+            }
+        }
+        Vector3 ranvec = new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), 0);
+        RotateTo(ranvec);
+        transform.position = Vector3.MoveTowards(transform.position, ranvec, Time.deltaTime * speed);
+        if (CurrentMode != Modes.AlertMode)
+        {
+            currentbreadcrumb++;
+            breadcrumbs.Add(currentbreadcrumb, transform.position);
+        }
     }
 
     void Breading()
@@ -160,7 +211,7 @@ public class BaseEnemy : MonoBehaviour {
             }
         }
         RotateTo(breadcrumbs[currentbreadcrumb]);
-        transform.position = Vector3.MoveTowards(transform.position, breadcrumbs[currentbreadcrumb], Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, breadcrumbs[currentbreadcrumb], speed * Time.deltaTime);
     }
 
     //void Investigate()
@@ -239,7 +290,14 @@ public class BaseEnemy : MonoBehaviour {
     {
         if(obj.gameObject.tag == "Player")
         {
-            CurrentMode = Modes.FollowMode;
+            if (CurrentMode != Modes.AlertMode)
+            {
+                CurrentMode = Modes.FollowMode;
+            }
+            else
+            {
+                PermaFollow = true;
+            }
             wanderingtime = 0;
             player = obj;
         }
@@ -249,8 +307,16 @@ public class BaseEnemy : MonoBehaviour {
     {
         if (obj.gameObject.tag == "Player")
         {
-            CurrentMode = Modes.WanderingMode;
-            wanderingtime = Random.Range(3,8);
+            if (CurrentMode != Modes.AlertMode)
+            {
+                CurrentMode = Modes.WanderingMode;
+                wanderingtime = Random.Range(3, 8);
+            }
+            else
+            {
+                PermaFollow = false;
+                wanderingtime = 3.0f;
+            }
             playerlastknown = player.transform.position;
         }
     }
@@ -309,5 +375,45 @@ public class BaseEnemy : MonoBehaviour {
             currentpoint++;
         }
         currentpoint = 0;
+    }
+
+    public new int GetType()
+    {
+        switch (type)
+        {
+            case Enemy.RobotMan:
+                return 0;
+            case Enemy.RobotDog:
+                return 1;
+        }
+        return -1;
+    }
+
+    public void Pounce()
+    {
+        transform.position = player.transform.position;
+    }
+
+    public bool CheckValidDistance()
+    {
+        if (Mathf.Sqrt(Mathf.Pow(transform.position.x - player.transform.position.x, 2) + Mathf.Pow(transform.position.y - player.transform.position.y, 2)) <= transform.lossyScale.x / 6)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void ManSpeed()
+    {
+        robomantimer -= Time.deltaTime;
+        if (robomantimer <= 0)
+        {
+            robomantimer = 0.2f;
+            speed += 0.3f;
+            if (speed >= 2.2f)
+            {
+                speed = 0;
+            }
+        }
     }
 }
