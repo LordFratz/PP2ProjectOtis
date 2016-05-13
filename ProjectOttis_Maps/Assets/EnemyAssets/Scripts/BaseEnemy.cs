@@ -427,7 +427,7 @@ public class BaseEnemy : MonoBehaviour {
 
     public void Pounce()
     {
-        transform.position = player.transform.position;
+        this.transform.position = player.transform.position;
     }
 
     public bool CheckValidDistance()

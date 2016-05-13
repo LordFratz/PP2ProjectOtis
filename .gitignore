@@ -1,3 +1,11 @@
 
 /ProjectOtis/Library
 ProjectOttis_Maps/Library/metadata/
+ProjectOttis_Maps/Library/ScriptAssemblies/
+ProjectOttis_Maps/Library/UnityAssemblies/
+*.dwlt
+*.asset
+*.txt
+*.bin
+ProjectOttis_Maps/Library/assetDatabase3
+ProjectOttis_Maps/Library/expandedItems
