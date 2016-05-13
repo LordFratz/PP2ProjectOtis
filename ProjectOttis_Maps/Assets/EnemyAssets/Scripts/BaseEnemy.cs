@@ -13,7 +13,16 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField]
     Enemy type;
 
+    [SerializeField]
+    GameObject playGuy;
+
     private Modes CurrentMode;
+
+    private float mantimer;
+    private float timerdog;
+    private float timerMax = 5f;
+
+    //private bool gethit;
 
     [SerializeField] private float heading;
 	Vector3 ranvec;
@@ -63,6 +72,9 @@ public class BaseEnemy : MonoBehaviour {
         robomantimer = 0;
         decay = true;
         PermaFollow = false;
+        timerdog = timerMax;
+        //gethit = false;
+        mantimer = 0;
 	    speed = Basespeed;
         switch (type)
         {
@@ -135,7 +147,8 @@ public class BaseEnemy : MonoBehaviour {
 			}
 	            break;
 	    }
-    }
+	    Hurt();
+	}
 
     void Standstill()
     {
@@ -443,7 +456,7 @@ public class BaseEnemy : MonoBehaviour {
 
     private void PlayerSeen_Update_Bar()
     {
-        alret_bar.GetComponent<Over_All_Awareness_Bar_Script>().Value += .1f;
+        alret_bar.GetComponent<Over_All_Awareness_Bar_Script>().Value += .2f;
 
 		bool Change = alret_bar.GetComponent<Over_All_Awareness_Bar_Script> ().Is_Nothing_In;
 		if(Change == true)
@@ -453,4 +466,76 @@ public class BaseEnemy : MonoBehaviour {
 			PermaFollow = true;
 		}
     }
+
+    void Hitcountdown(bool get)
+    {
+        if (get)
+        {
+            timerdog -= Time.deltaTime;
+            mantimer -= Time.deltaTime;
+        }
+    }
+
+    void Hurt()
+    {
+        PlayerScript plyr = playGuy.GetComponent<PlayerScript>();
+        switch (type)
+        {
+            case Enemy.RobotMan:
+                if (CheckValidDistance())
+                {
+                    Hitcountdown(plyr.gethit);
+                    if (mantimer <= 0)
+                    {
+                        plyr.GetComponent<PlayerScript>().DealDamage(damage);
+                        mantimer = 3.0f;
+                    }
+                }
+                break;
+            case Enemy.RobotDog:
+                Hitcountdown(plyr.gethit);
+                if (timerdog <= 0)
+                {
+                    Pounce();
+                    plyr.GetComponent<PlayerScript>().DealDamage(damage);
+                    timerdog = timerMax;
+                }
+                break;
+        }
+    }
+
+    //void gethurt()
+    //{
+    //    BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
+
+    //    int type = enemy.GetType();
+    //    switch(type)
+    //    {
+    //        case 0:
+    //            if(enemy.CheckValidDistance())
+    //            {
+    //                Hitcountdown(gethit);
+    //                if(mantimer <= 0)
+    //                {
+    //                    HP -= enemy.damage;
+    //	if (HP <= 0) 
+    //	{
+
+    //	}
+    //	BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                    mantimer = 3.0f;
+    //                }
+    //            }
+    //            break;
+    //        case 1:
+    //            Hitcountdown(gethit);
+    //            if(timer <= 0)
+    //            {
+    //                enemy.Pounce();
+    //                HP -= enemy.damage;
+    //BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                timer = TimerMax;
+    //            }
+    //            break;
+    //    }
 }
