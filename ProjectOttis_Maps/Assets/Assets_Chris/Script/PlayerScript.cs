@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
 
@@ -14,16 +15,16 @@ public class PlayerScript : MonoBehaviour {
 	[SerializeField]
 	GameObject BarS;
     [SerializeField]
-    bool gethit;
+    public bool gethit;
+    //[SerializeField]
+    //GameObject enemies;
     [SerializeField]
-    GameObject enemies;
-    [SerializeField]
-    float timer;
-    private float mantimer;
+    public float timer;
+    //private float mantimer;
 
-    private float TimerMax = 5f;
+    public float TimerMax = 5f;
 
-	private int Timer = 50;
+    private int Timer = 50;
 	private int StartTimerOnRecover;
 	private int StartTimer;
 	//private Transform PlayerTrans;
@@ -38,12 +39,12 @@ public class PlayerScript : MonoBehaviour {
 		StartTimerOnRecover = Timer;
         gethit = false;
         timer = TimerMax;
-        mantimer = 0;
-	}
+        //mantimer = 0;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        gethurt();
+        //gethurt();
 	}
 
 	void FixedUpdate()
@@ -230,7 +231,7 @@ public class PlayerScript : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D obj)
     {
-        if(obj.gameObject.tag == "enemy")
+        if (obj.gameObject.tag == "enemy")
         {
             gethit = true;
         }
@@ -238,55 +239,66 @@ public class PlayerScript : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D obj)
     {
-        if(obj.gameObject.tag == "enemy")
+        if (obj.gameObject.tag == "enemy")
         {
             gethit = false;
             timer = TimerMax;
         }
     }
 
-    void Hitcountdown(bool get)
+    //void Hitcountdown(bool get)
+    //{
+    //    if(get)
+    //    {
+    //        timer -= Time.deltaTime;
+    //        mantimer -= Time.deltaTime;
+    //    }
+    //}
+
+    //void gethurt()
+    //{
+    //    BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
+
+    //    int type = enemy.GetType();
+    //    switch(type)
+    //    {
+    //        case 0:
+    //            if(enemy.CheckValidDistance())
+    //            {
+    //                Hitcountdown(gethit);
+    //                if(mantimer <= 0)
+    //                {
+    //                    HP -= enemy.damage;
+    //	if (HP <= 0) 
+    //	{
+
+    //	}
+    //	BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                    mantimer = 3.0f;
+    //                }
+    //            }
+    //            break;
+    //        case 1:
+    //            Hitcountdown(gethit);
+    //            if(timer <= 0)
+    //            {
+    //                enemy.Pounce();
+    //                HP -= enemy.damage;
+    //BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                timer = TimerMax;
+    //            }
+    //            break;
+    //    }
+    //}
+
+    public void DealDamage(float amt)
     {
-        if(get)
+        HP -= amt;
+        if (HP <= 0)
         {
-            timer -= Time.deltaTime;
-            mantimer -= Time.deltaTime;
+            HP = 0;
+            SceneManager.LoadScene("LoseScene");
         }
-    }
-
-    void gethurt()
-    {
-        BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
-
-        int type = enemy.GetType();
-        switch(type)
-        {
-            case 0:
-                if(enemy.CheckValidDistance())
-                {
-                    Hitcountdown(gethit);
-                    if(mantimer <= 0)
-                    {
-                        HP -= enemy.damage;
-					if (HP <= 0) 
-					{
-
-					}
-					BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-                        mantimer = 3.0f;
-                    }
-                }
-                break;
-            case 1:
-                Hitcountdown(gethit);
-                if(timer <= 0)
-                {
-                    enemy.Pounce();
-                    HP -= enemy.damage;
-				BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-                    timer = TimerMax;
-                }
-                break;
-        }
+        BarHP.GetComponent<Bar_Script>().Value -= (amt * .01f);
     }
 }
