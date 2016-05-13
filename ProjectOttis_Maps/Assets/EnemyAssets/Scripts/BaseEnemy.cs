@@ -147,7 +147,13 @@ public class BaseEnemy : MonoBehaviour {
 			}
 	            break;
 	    }
-	    Hurt();
+        bool Change = alret_bar.GetComponent<Over_All_Awareness_Bar_Script>().Is_Nothing_In;
+        if (Change == true)
+        {
+
+            CurrentMode = Modes.AlertMode;
+        }
+        Hurt();
 	}
 
     void Standstill()
