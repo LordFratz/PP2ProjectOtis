@@ -55,7 +55,6 @@
      <Compile Include="Assets\EnemyAssets\Scripts\BaseEnemy.cs" />
      <Compile Include="Assets\EnemyAssets\Scripts\BulletMoving.cs" />
      <Compile Include="Assets\EnemyAssets\Scripts\Play.cs" />
-     <Compile Include="Assets\EnemyAssets\Scripts\SoundDetection.cs" />
      <Compile Include="Assets\StartButtonScript.cs" />
      <None Include="Assets\read me.txt" />
  <Reference Include="UnityEngine.UI">

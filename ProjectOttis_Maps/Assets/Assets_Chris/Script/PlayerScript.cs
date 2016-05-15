@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
 
@@ -15,16 +14,18 @@ public class PlayerScript : MonoBehaviour {
 	[SerializeField]
 	GameObject BarS;
     [SerializeField]
-    public bool gethit;
-    //[SerializeField]
-    //GameObject enemies;
+    bool gethit;
     [SerializeField]
-    public float timer;
-    //private float mantimer;
+    GameObject enemies;
+    [SerializeField]
+    float timer;
+	[SerializeField]
+	GameObject SoundObj;
+    private float mantimer;
+	private bool PlayerRan=false;
+    private float TimerMax = 5f;
 
-    public float TimerMax = 5f;
-
-    private int Timer = 50;
+	private int Timer = 50;
 	private int StartTimerOnRecover;
 	private int StartTimer;
 	//private Transform PlayerTrans;
@@ -39,22 +40,25 @@ public class PlayerScript : MonoBehaviour {
 		StartTimerOnRecover = Timer;
         gethit = false;
         timer = TimerMax;
-        //mantimer = 0;
-    }
+        mantimer = 0;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        //gethurt();
+        gethurt();
 	}
 
 	void FixedUpdate()
 	{
-		bool PlayerRan = false;
 		if(Input.GetKey(KeyCode.W))
 		{
+			if (Input.GetKey (KeyCode.P)) 
+			{
+				//if(SoundObj != null)
+					
+			}
 			if (Input.GetKey (KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false) 
 			{
-				PlayerRan = true;
 				Vector3 Temp = this.transform.position;
 				Temp.y = Temp.y + MaxSpeed;
 				this.transform.position = Temp;
@@ -73,7 +77,7 @@ public class PlayerScript : MonoBehaviour {
 			Vector3 Temp = this.transform.position;
 			Temp.y = Temp.y + Speed;
 			this.transform.position = Temp;
-				StartTimer++;
+			StartTimer++;
 				//if (StartTimerOnRecover == Timer)
 				//	ReGain_Stamina ();
 				//else
@@ -87,7 +91,6 @@ public class PlayerScript : MonoBehaviour {
 		{
 			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				PlayerRan = true;
 				Vector3 Temp = this.transform.position;
 				Temp.x = Temp.x - MaxSpeed;
 				this.transform.position = Temp;
@@ -106,7 +109,7 @@ public class PlayerScript : MonoBehaviour {
 			Vector3 Temp = this.transform.position;
 			Temp.x = Temp.x - Speed;
 			this.transform.position = Temp;
-				StartTimer++;
+			StartTimer++;
 				//if (StartTimerOnRecover >= Timer)
 				//	ReGain_Stamina ();
 				//else
@@ -117,7 +120,6 @@ public class PlayerScript : MonoBehaviour {
 		{
 			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				PlayerRan = true;
 				Vector3 Temp = this.transform.position;
 				Temp.y = Temp.y - MaxSpeed;
 				this.transform.position = Temp;
@@ -133,10 +135,9 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-			Vector3 Temp = this.transform.position;
-			Temp.y = Temp.y - Speed;
-			this.transform.position = Temp;
-
+				Vector3 Temp = this.transform.position;
+				Temp.y = Temp.y - Speed;
+				this.transform.position = Temp;
 				StartTimer++;
 				//if (StartTimerOnRecover >= Timer)
 				//	ReGain_Stamina ();
@@ -146,11 +147,9 @@ public class PlayerScript : MonoBehaviour {
 		}
 		if (Input.GetKey (KeyCode.D)) 
 		{
-			PlayerRan = true;
 			//bool TempHolder=BarS.GetComponent<Bar_Script> ().Is_Nothing_In;
 			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				PlayerRan = true;
 				Vector3 Temp = this.transform.position;
 				Temp.x = Temp.x + MaxSpeed;
 				this.transform.position = Temp;
@@ -166,9 +165,9 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-			Vector3 Temp = this.transform.position;
-			Temp.x = Temp.x + Speed;
-			this.transform.position = Temp;
+				Vector3 Temp = this.transform.position;
+				Temp.x = Temp.x + Speed;
+				this.transform.position = Temp;
 				//if (StartTimerOnRecover >= Timer)
 				//	ReGain_Stamina ();
 				//else
@@ -180,7 +179,7 @@ public class PlayerScript : MonoBehaviour {
 			StartTimerOnRecover = Timer;
 		if (StartTimer > Timer)
 			StartTimer = Timer;
-		if (PlayerRan == false) 
+		if (Input.GetKey (KeyCode.Space) == false)
 		{
 			if (StartTimerOnRecover == Timer)
 				ReGain_Stamina ();
@@ -196,7 +195,11 @@ public class PlayerScript : MonoBehaviour {
 
 	private void ReGain_Stamina()
 	{
-		BarS.GetComponent<Bar_Script> ().Value += .1f;
+		if (BarS.GetComponent<Bar_Script> ().Is_It_Full == false) 
+		{
+			
+			BarS.GetComponent<Bar_Script> ().Value += .1f;
+		}
 		StartTimerOnRecover = 0;
 	}
 
@@ -218,11 +221,13 @@ public class PlayerScript : MonoBehaviour {
 		Speed = .065f;
 		MaxSpeed = .09f;
 	}
+
 	public void NormSpeedPlayer()
 	{
 		Speed = .1f;
 		MaxSpeed = .2f;
 	}
+
 	public void WaterSlowPlayer()
 	{
 		Speed = .05f;
@@ -231,7 +236,7 @@ public class PlayerScript : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D obj)
     {
-        if (obj.gameObject.tag == "enemy")
+        if(obj.gameObject.tag == "enemy")
         {
             gethit = true;
         }
@@ -239,66 +244,55 @@ public class PlayerScript : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D obj)
     {
-        if (obj.gameObject.tag == "enemy")
+        if(obj.gameObject.tag == "enemy")
         {
             gethit = false;
             timer = TimerMax;
         }
     }
 
-    //void Hitcountdown(bool get)
-    //{
-    //    if(get)
-    //    {
-    //        timer -= Time.deltaTime;
-    //        mantimer -= Time.deltaTime;
-    //    }
-    //}
-
-    //void gethurt()
-    //{
-    //    BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
-
-    //    int type = enemy.GetType();
-    //    switch(type)
-    //    {
-    //        case 0:
-    //            if(enemy.CheckValidDistance())
-    //            {
-    //                Hitcountdown(gethit);
-    //                if(mantimer <= 0)
-    //                {
-    //                    HP -= enemy.damage;
-    //	if (HP <= 0) 
-    //	{
-
-    //	}
-    //	BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-    //                    mantimer = 3.0f;
-    //                }
-    //            }
-    //            break;
-    //        case 1:
-    //            Hitcountdown(gethit);
-    //            if(timer <= 0)
-    //            {
-    //                enemy.Pounce();
-    //                HP -= enemy.damage;
-    //BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-    //                timer = TimerMax;
-    //            }
-    //            break;
-    //    }
-    //}
-
-    public void DealDamage(float amt)
+    void Hitcountdown(bool get)
     {
-        HP -= amt;
-        if (HP <= 0)
+        if(get)
         {
-            HP = 0;
-            SceneManager.LoadScene("LoseScene");
+            timer -= Time.deltaTime;
+            mantimer -= Time.deltaTime;
         }
-        BarHP.GetComponent<Bar_Script>().Value -= (amt * .01f);
+    }
+
+    void gethurt()
+    {
+        BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
+
+        int type = enemy.GetType();
+        switch(type)
+        {
+            case 0:
+                if(enemy.CheckValidDistance())
+                {
+                    Hitcountdown(gethit);
+                    if(mantimer <= 0)
+                    {
+                        HP -= enemy.damage;
+					if (HP <= 0) 
+					{
+
+					}
+					BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+                        mantimer = 3.0f;
+                    }
+                }
+                break;
+            case 1:
+                Hitcountdown(gethit);
+                if(timer <= 0)
+                {
+                    enemy.Pounce();
+                    HP -= enemy.damage;
+				BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+                    timer = TimerMax;
+                }
+                break;
+        }
     }
 }
