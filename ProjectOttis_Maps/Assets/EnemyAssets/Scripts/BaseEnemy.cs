@@ -16,6 +16,8 @@ public class BaseEnemy : MonoBehaviour {
     [SerializeField]
     GameObject playGuy;
 
+    private PlayerScript playayaya;
+
     private Modes CurrentMode;
 
     private float mantimer;
@@ -91,6 +93,7 @@ public class BaseEnemy : MonoBehaviour {
         wanderingtime = 0;
         SetPaths();
         breadcrumbs.Add(0, new Vector3(0, 0, 1));
+        playayaya = playGuy.GetComponent<PlayerScript>();
     }
 	
 	// Update is called once per frame
@@ -130,7 +133,7 @@ public class BaseEnemy : MonoBehaviour {
                 Breading();
 	            break;
             case Modes.InvestigateMode:
-                //To be implemented
+                Investigate();
 	            break;
             case Modes.AlertMode:
 	            if(PermaFollow)
@@ -158,6 +161,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Standstill()
     {
+        decay = true;
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -181,6 +185,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Following()
     {
+        decay = false;
         RotateTo(player.transform.position);
 
         var rotationVector = transform.rotation.eulerAngles;
@@ -202,6 +207,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Wandering()
     {
+        decay = true;
         if (CurrentMode != Modes.AlertMode)
         {
             wanderingtime -= Time.deltaTime;
@@ -231,6 +237,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Breading()
     {
+        decay = true;
         while(transform.position == breadcrumbs[currentbreadcrumb])
         {
             breadcrumbs.Remove(currentbreadcrumb);
@@ -245,14 +252,20 @@ public class BaseEnemy : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, breadcrumbs[currentbreadcrumb], speed * Time.deltaTime);
     }
 
-    //void Investigate()
-    //{
-    //    Vector3 vectorToTarget = (playerlastknown - transform.position).normalized;
-    //    heading = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-    //    Quaternion q = Quaternion.AngleAxis(heading, Vector3.forward);
-    //    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
-    //    CorrectHeading();
-    //}
+    void Investigate()
+    {
+        if (transform.position != playerlastknown)
+        {
+            RotateTo(playerlastknown);
+            transform.position = Vector3.MoveTowards(transform.position, playerlastknown, speed*Time.deltaTime);
+            decay = false;
+        }
+        else
+        {
+            decay = true;
+            CurrentMode = Modes.WanderingMode;
+        }
+    }
 
     void Patrolling()
     {
@@ -309,12 +322,9 @@ public class BaseEnemy : MonoBehaviour {
 
     public void AddAlertBySound(float sound, Vector3 playerPos)
     {
-        playerlastknown = playerPos;
+        playerlastknown = playayaya.transform.position;
         alertamount += sound;
-        if (alertamount > AlertMax / 2)
-        {
-			CurrentMode = Modes.InvestigateMode;
-        }
+	    CurrentMode = Modes.InvestigateMode;
     }
 
     void OnTriggerEnter2D(Collider2D obj)
