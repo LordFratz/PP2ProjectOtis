@@ -307,15 +307,15 @@ public class BaseEnemy : MonoBehaviour {
         CorrectHeading();
     }
 
-    //public void AddAlertBySound(float sound, Vector3 playerPos)
-    //{
-    //    playerlastknown = playerPos;
-    //    alertamount += sound;
-    //    if (alertamount > AlertMax / 2)
-    //    {
-    //        InvestigateMode = true;
-    //    }
-    //}
+    public void AddAlertBySound(float sound, Vector3 playerPos)
+    {
+        playerlastknown = playerPos;
+        alertamount += sound;
+        if (alertamount > AlertMax / 2)
+        {
+			CurrentMode = Modes.InvestigateMode;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D obj)
     {
@@ -493,7 +493,7 @@ public class BaseEnemy : MonoBehaviour {
                     Hitcountdown(plyr.gethit);
                     if (mantimer <= 0)
                     {
-                        plyr.GetComponent<PlayerScript>().DealDamage(damage);
+					plyr.GetComponent<PlayerScript>().GetDame(damage);
                         mantimer = 3.0f;
                     }
                 }
@@ -503,7 +503,7 @@ public class BaseEnemy : MonoBehaviour {
                 if (timerdog <= 0)
                 {
                     Pounce();
-                    plyr.GetComponent<PlayerScript>().DealDamage(damage);
+                    plyr.GetComponent<PlayerScript>().GetDame(damage);
                     timerdog = timerMax;
                 }
                 break;

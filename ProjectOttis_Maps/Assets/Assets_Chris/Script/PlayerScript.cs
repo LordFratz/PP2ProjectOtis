@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
 
@@ -9,12 +10,11 @@ public class PlayerScript : MonoBehaviour {
 	float MaxSpeed=.2f;
 	private float Stamina = 1;
 	private float HP = 100;
+	public bool gethit;
 	[SerializeField]
 	GameObject BarHP;
 	[SerializeField]
 	GameObject BarS;
-    [SerializeField]
-    bool gethit;
     [SerializeField]
     GameObject enemies;
     [SerializeField]
@@ -45,7 +45,7 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gethurt();
+        //gethurt();
 	}
 
 	void FixedUpdate()
@@ -55,7 +55,7 @@ public class PlayerScript : MonoBehaviour {
 			if (Input.GetKey (KeyCode.P)) 
 			{
 				//if(SoundObj != null)
-					
+
 			}
 			if (Input.GetKey (KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false) 
 			{
@@ -191,6 +191,16 @@ public class PlayerScript : MonoBehaviour {
 	private void Lower_Stamina()
 	{
 		BarS.GetComponent<Bar_Script> ().Value -= .1f;
+	}
+
+	public void GetDame(float Dame)
+	{
+		HP -= Dame;
+		if(HP <=0)
+		{
+			SceneManager.LoadScene ("LoseScene");
+		}
+		BarHP.GetComponent<Bar_Script> ().Value -= (Dame * .01f);
 	}
 
 	private void ReGain_Stamina()
