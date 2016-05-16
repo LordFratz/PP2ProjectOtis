@@ -1,16 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets_Chris\Script\PlayerScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets_Chris\Script\Bar_Script.cs">
     <Files>
-      <File FileName="Assets\Assets_Chris\Script\PlayerScript.cs" Line="253" Column="6" />
-      <File FileName="Assets\Assets_Chris\Script\Over_All_Awareness_Bar_Script.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets_Chris\Script\Bar_Script.cs" Line="1" Column="1" />
-      <File FileName="Assets\EnemyAssets\Scripts\BaseEnemy.cs" Line="496" Column="47" />
-      <File FileName="Assets\Assets_Chris\Script\KeyScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets_Chris\Script\BushScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets_Chris\Script\WaterSpot_Script.cs" Line="1" Column="1" />
-      <File FileName="Assets\Assets_Chris\Script\DoorScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\EnemyAssets\Scripts\SoundDetection.cs" Line="25" Column="39" />
+      <File FileName="Assets\Assets_Chris\Script\Bar_Script.cs" Line="142" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
