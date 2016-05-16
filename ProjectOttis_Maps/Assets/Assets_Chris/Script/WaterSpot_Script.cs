@@ -2,12 +2,40 @@
 using System.Collections;
 
 public class WaterSpot_Script : MonoBehaviour {
-
-	void OnTriggerEnter2D(Collider2D _other)
+    [SerializeField]
+    Sprite one;
+    [SerializeField]
+    Sprite two;
+    public AudioClip water;
+    public AudioClip grass;
+    bool first = true;
+    int i = 0;
+    void FixedUpdate()
+    {
+        if (i > 30)
+        {
+            SpriteRenderer spt = this.gameObject.GetComponent<SpriteRenderer>();
+            if (first == false)
+            {
+                first = true;
+                spt.sprite = one;
+            }
+            else
+            {
+                first = false;
+                spt.sprite = two;
+            }
+            i = 0;
+        }
+        i++;
+    }
+    void OnTriggerEnter2D(Collider2D _other)
 	{
 		if (_other.gameObject.tag == "Player") 
 		{
-			PlayerScript play = _other.GetComponent<PlayerScript>();
+            SoundManager.instance.PlaySingle2(water);
+            SoundManager.instance.SFX.mute = true;
+            PlayerScript play = _other.GetComponent<PlayerScript>();
 			play.WaterSlowPlayer ();
 
 		}
@@ -16,7 +44,9 @@ public class WaterSpot_Script : MonoBehaviour {
 	{
 		if (_other.gameObject.tag == "Player") 
 		{
-			PlayerScript play = _other.GetComponent<PlayerScript>();
+            SoundManager.instance.SFX2.Stop();
+            SoundManager.instance.SFX.mute = false;
+            PlayerScript play = _other.GetComponent<PlayerScript>();
 			play.NormSpeedPlayer ();
 		}
 	}

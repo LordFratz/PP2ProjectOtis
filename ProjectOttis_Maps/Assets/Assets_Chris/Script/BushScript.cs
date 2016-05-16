@@ -10,12 +10,14 @@ public class BushScript : MonoBehaviour {
 	bool Is_Cave=false;
 	[SerializeField]
 	Sprite Close_Cave;
+    public AudioClip bush;
 
-	void OnTriggerEnter2D(Collider2D _other)
+    void OnTriggerEnter2D(Collider2D _other)
 	{
 		if (_other.gameObject.tag == "Player") 
 		{
-			PlayerScript play = _other.GetComponent<PlayerScript>();
+            SoundManager.instance.PlaySingle2(bush);
+            PlayerScript play = _other.GetComponent<PlayerScript>();
 			SpriteRenderer co = _other.GetComponent<SpriteRenderer> ();
 			Color lowview = co.color;
 			lowview.a = .5f;
@@ -28,7 +30,8 @@ public class BushScript : MonoBehaviour {
 	{
 		if (_other.gameObject.tag == "Player") 
 		{
-			PlayerScript play = _other.GetComponent<PlayerScript>();
+            SoundManager.instance.PlaySingle2(bush);
+            PlayerScript play = _other.GetComponent<PlayerScript>();
 			SpriteRenderer co = _other.GetComponent<SpriteRenderer> ();
 			Color lowview = co.color;
 			lowview.a = 1f;

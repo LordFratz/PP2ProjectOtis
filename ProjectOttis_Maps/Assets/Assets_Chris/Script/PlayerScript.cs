@@ -21,6 +21,9 @@ public class PlayerScript : MonoBehaviour {
     float timer;
 	[SerializeField]
 	GameObject SoundObj;
+    public AudioClip grass;
+    public AudioClip run;
+    bool running;
     private float mantimer;
 	private bool PlayerRan=false;
     private float TimerMax = 5f;
@@ -41,6 +44,7 @@ public class PlayerScript : MonoBehaviour {
         gethit = false;
         timer = TimerMax;
         mantimer = 0;
+        running = false;
 	}
 	
 	// Update is called once per frame
@@ -52,14 +56,23 @@ public class PlayerScript : MonoBehaviour {
 	{
 		if(Input.GetKey(KeyCode.W))
 		{
-			if (Input.GetKey (KeyCode.P)) 
+            if (SoundManager.instance.SFX.isPlaying == false)
+            {
+                SoundManager.instance.PlaySingle(grass);
+            }
+            if (Input.GetKey (KeyCode.P)) 
 			{
 				//if(SoundObj != null)
 
 			}
 			if (Input.GetKey (KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false) 
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == false)
+                {
+                    SoundManager.instance.PlaySingle(run);
+                    running = true;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.y = Temp.y + MaxSpeed;
 				this.transform.position = Temp;
 				if (StartTimer > Timer)
@@ -74,7 +87,12 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-			Vector3 Temp = this.transform.position;
+                if (running == true)
+                {
+                    SoundManager.instance.SFX.Stop();
+                    running = false;
+                }
+                Vector3 Temp = this.transform.position;
 			Temp.y = Temp.y + Speed;
 			this.transform.position = Temp;
 			StartTimer++;
@@ -87,11 +105,20 @@ public class PlayerScript : MonoBehaviour {
 			//this.gameObject.transform.Translate(Vector3(PlayerTrans.position.x,PlayerTrans.position.y+Speed,PlayerTrans.position.x));
 			}
 		}
-		if(Input.GetKey(KeyCode.A))
+		else if(Input.GetKey(KeyCode.A))
 		{
-			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
+            if (SoundManager.instance.SFX.isPlaying == false)
+            {
+                SoundManager.instance.PlaySingle(grass);
+            }
+            if (Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == false)
+                {
+                    SoundManager.instance.PlaySingle(run);
+                    running = true;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.x = Temp.x - MaxSpeed;
 				this.transform.position = Temp;
 				if (StartTimer > Timer)
@@ -106,7 +133,12 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-			Vector3 Temp = this.transform.position;
+                if (running == true)
+                {
+                    SoundManager.instance.SFX.Stop();
+                    running = false;
+                }
+                Vector3 Temp = this.transform.position;
 			Temp.x = Temp.x - Speed;
 			this.transform.position = Temp;
 			StartTimer++;
@@ -116,11 +148,20 @@ public class PlayerScript : MonoBehaviour {
 				//	StartTimerOnRecover++;
 			}
 		}
-		if (Input.GetKey (KeyCode.S))
+		else if (Input.GetKey (KeyCode.S))
 		{
-			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
+            if (SoundManager.instance.SFX.isPlaying == false)
+            {
+                SoundManager.instance.PlaySingle(grass);
+            }
+            if (Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == false)
+                {
+                    SoundManager.instance.PlaySingle(run);
+                    running = true;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.y = Temp.y - MaxSpeed;
 				this.transform.position = Temp;
 				if (StartTimer > Timer)
@@ -135,7 +176,12 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == true)
+                {
+                    SoundManager.instance.SFX.Stop();
+                    running = false;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.y = Temp.y - Speed;
 				this.transform.position = Temp;
 				StartTimer++;
@@ -145,12 +191,21 @@ public class PlayerScript : MonoBehaviour {
 				//	StartTimerOnRecover++;
 			}
 		}
-		if (Input.GetKey (KeyCode.D)) 
+		else if (Input.GetKey (KeyCode.D)) 
 		{
-			//bool TempHolder=BarS.GetComponent<Bar_Script> ().Is_Nothing_In;
-			if(Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
+            if (SoundManager.instance.SFX.isPlaying == false)
+            {
+                SoundManager.instance.PlaySingle(grass);
+            }
+            //bool TempHolder=BarS.GetComponent<Bar_Script> ().Is_Nothing_In;
+            if (Input.GetKey(KeyCode.Space)&& BarS.GetComponent<Bar_Script>().Is_Nothing_In == false)
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == false)
+                {
+                    SoundManager.instance.PlaySingle(run);
+                    running = true;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.x = Temp.x + MaxSpeed;
 				this.transform.position = Temp;
 				if (StartTimer > Timer)
@@ -165,7 +220,12 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else
 			{
-				Vector3 Temp = this.transform.position;
+                if (running == true)
+                {
+                    SoundManager.instance.SFX.Stop();
+                    running = false;
+                }
+                Vector3 Temp = this.transform.position;
 				Temp.x = Temp.x + Speed;
 				this.transform.position = Temp;
 				//if (StartTimerOnRecover >= Timer)
@@ -175,6 +235,10 @@ public class PlayerScript : MonoBehaviour {
 				StartTimer++;
 			}
 		}
+        else
+        {
+            SoundManager.instance.SFX.Stop();
+        }
 		if (StartTimerOnRecover > Timer)
 			StartTimerOnRecover = Timer;
 		if (StartTimer > Timer)

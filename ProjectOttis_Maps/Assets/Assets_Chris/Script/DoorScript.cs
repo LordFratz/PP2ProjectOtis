@@ -7,7 +7,8 @@ public class DoorScript : MonoBehaviour {
 	GameObject KeyID;
 	[SerializeField]
 	Sprite Open;
-	void OnTriggerEnter2D(Collider2D _other)
+    public AudioClip door;
+    void OnTriggerEnter2D(Collider2D _other)
 	{
 		if (_other.gameObject.tag == "Player") 
 		{
@@ -15,8 +16,11 @@ public class DoorScript : MonoBehaviour {
 			GameObject ky = play.GetPlayerKey ();
 			if (ky == KeyID) 
 			{
-				SpriteRenderer spt = this.gameObject.GetComponent<SpriteRenderer> ();
+                SoundManager.instance.PlaySingle2(door);
+                SpriteRenderer spt = this.gameObject.GetComponent<SpriteRenderer> ();
 				spt.sprite = Open;
+                SoundManager.instance.BackgroundMusic.Stop();
+                SoundManager.instance.SFX.Stop();
                 SceneManager.LoadScene("WinScene");
 			}
 		}
