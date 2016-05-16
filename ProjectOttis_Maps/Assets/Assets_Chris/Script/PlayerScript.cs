@@ -261,48 +261,48 @@ public class PlayerScript : MonoBehaviour {
         }
     }
 
-    void Hitcountdown(bool get)
-    {
-        if(get)
-        {
-            timer -= Time.deltaTime;
-            mantimer -= Time.deltaTime;
-        }
-    }
+    //void Hitcountdown(bool get)
+    //{
+    //    if(get)
+    //    {
+    //        timer -= Time.deltaTime;
+    //        mantimer -= Time.deltaTime;
+    //    }
+    //}
 
-    void gethurt()
-    {
-        BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
+    //void gethurt()
+    //{
+    //    BaseEnemy enemy = enemies.GetComponent<BaseEnemy>();
 
-        int type = enemy.GetType();
-        switch(type)
-        {
-            case 0:
-                if(enemy.CheckValidDistance())
-                {
-                    Hitcountdown(gethit);
-                    if(mantimer <= 0)
-                    {
-                        HP -= enemy.damage;
-					if (HP <= 0) 
-					{
+    //    int type = enemy.GetType();
+    //    switch(type)
+    //    {
+    //        case 0:
+    //            if(enemy.CheckValidDistance())
+    //            {
+    //                Hitcountdown(gethit);
+    //                if(mantimer <= 0)
+    //                {
+    //                    HP -= enemy.damage;
+				//	if (HP <= 0) 
+				//	{
 
-					}
-					BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-                        mantimer = 3.0f;
-                    }
-                }
-                break;
-            case 1:
-                Hitcountdown(gethit);
-                if(timer <= 0)
-                {
-                    enemy.Pounce();
-                    HP -= enemy.damage;
-				BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
-                    timer = TimerMax;
-                }
-                break;
-        }
-    }
+				//	}
+				//	BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                    mantimer = 3.0f;
+    //                }
+    //            }
+    //            break;
+    //        case 1:
+    //            Hitcountdown(gethit);
+    //            if(timer <= 0)
+    //            {
+    //                enemy.Pounce();
+    //                HP -= enemy.damage;
+				//BarHP.GetComponent<Bar_Script> ().Value -= (enemy.damage*.01f);
+    //                timer = TimerMax;
+    //            }
+    //            break;
+    //    }
+    //}
 }

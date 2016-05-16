@@ -22,6 +22,7 @@ public class BaseEnemy : MonoBehaviour {
 
     private float mantimer;
     private float timerdog;
+    private float timerhitdog;
     private float timerMax = 5f;
 
     //private bool gethit;
@@ -46,6 +47,8 @@ public class BaseEnemy : MonoBehaviour {
     public float damage;
     private bool decay;
     private bool PermaFollow;
+    private bool pounce;
+    private bool isseen;
 
     //pathing
     Dictionary<int,Vector3> path = new Dictionary<int,Vector3>();
@@ -94,6 +97,9 @@ public class BaseEnemy : MonoBehaviour {
         SetPaths();
         breadcrumbs.Add(0, new Vector3(0, 0, 1));
         playayaya = playGuy.GetComponent<PlayerScript>();
+        pounce = false;
+        timerhitdog = 0f;
+        isseen = false;
     }
 	
 	// Update is called once per frame
@@ -106,12 +112,12 @@ public class BaseEnemy : MonoBehaviour {
 	            alertamount = 0;
 	        }
 	    }
-	    if (alertamount >= AlertMax - 1)
+	    if (alertamount >= AlertMax - 1 && !pounce)
 	    {
             switch (type)
             {
                 case Enemy.RobotMan:
-                    ManSpeed();
+                    speed = Basespeed * 1.5f;
                     break;
                 case Enemy.RobotDog:
                     speed = Basespeed * 2.0f;
@@ -139,14 +145,17 @@ public class BaseEnemy : MonoBehaviour {
 	            if(PermaFollow)
                     Following();
                 else Wandering();
-			    switch (type)
-			    {
-			    case Enemy.RobotMan:
-			    	ManSpeed();
-			    	break;
-			    case Enemy.RobotDog:
-			    	speed = Basespeed * 2.0f;
-				break;
+	            if (!pounce)
+	            {
+                    switch (type)
+                    {
+                        case Enemy.RobotMan:
+                            speed = Basespeed*2.5f;
+                            break;
+                        case Enemy.RobotDog:
+                            speed = Basespeed * 2.0f;
+                            break;
+                    }
 			}
 	            break;
 	    }
@@ -156,7 +165,10 @@ public class BaseEnemy : MonoBehaviour {
 
             CurrentMode = Modes.AlertMode;
         }
-        Hurt();
+	    if (CurrentMode == Modes.FollowMode || PermaFollow == true)
+	    {
+            Hurt();
+        }
 	}
 
     void Standstill()
@@ -207,6 +219,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void Wandering()
     {
+        pounce = false;
         decay = true;
         if (CurrentMode != Modes.AlertMode)
         {
@@ -224,7 +237,7 @@ public class BaseEnemy : MonoBehaviour {
             wanderingtime -= Time.deltaTime;
             if (wanderingtime <= 0)
             {
-                ranvec = new Vector3(Random.Range(-30, 100), Random.Range(-100, 20), 0);
+                ranvec = new Vector3(Random.Range(-200, 100), Random.Range(-100, 20), 0);
                 wanderingtime = 3.0f;
             }
 			if(ranvec != null) 
@@ -324,13 +337,14 @@ public class BaseEnemy : MonoBehaviour {
     {
         playerlastknown = playayaya.transform.position;
         alertamount += sound;
-	    CurrentMode = Modes.InvestigateMode;
+        CurrentMode = Modes.InvestigateMode;
     }
 
     void OnTriggerEnter2D(Collider2D obj)
     {
-        if(obj.gameObject.tag == "Player")
+        if (obj.gameObject.tag == "Player")
         {
+            isseen = true;
 			SpriteRenderer PlayVis = obj.gameObject.GetComponent<SpriteRenderer> ();
 			SpriteRenderer CanSee = PlayVis;
 			if(CanSee.color.a != .5f)
@@ -351,7 +365,7 @@ public class BaseEnemy : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D obj)
     {
-        if (obj.gameObject.tag == "Player")
+        if (obj.gameObject.tag == "Player" && isseen)
         {
             if (CurrentMode != Modes.AlertMode)
             {
@@ -435,21 +449,14 @@ public class BaseEnemy : MonoBehaviour {
         return -1;
     }
 
-    public void Pounce()
-    {
-        this.transform.position = player.transform.position;
-    }
-
     public bool CheckValidDistance()
     {
 		if(player!= null)
 		{
-        	if (Mathf.Sqrt(Mathf.Pow(transform.position.x - player.transform.position.x, 2) + Mathf.Pow(transform.position.y - player.transform.position.y, 2)) <= transform.lossyScale.x * 1.4)
+        	if (Mathf.Sqrt(Mathf.Pow(transform.position.x - playayaya.transform.position.x, 2) + Mathf.Pow(transform.position.y - playayaya.transform.position.y, 2)) <= transform.lossyScale.x * 1.4)
         	{
         	    return true;
         	}
-			else
-        	return false;
 		}
 		return false;
     }
@@ -498,9 +505,9 @@ public class BaseEnemy : MonoBehaviour {
         switch (type)
         {
             case Enemy.RobotMan:
+                Hitcountdown(plyr.gethit);
                 if (CheckValidDistance())
                 {
-                    Hitcountdown(plyr.gethit);
                     if (mantimer <= 0)
                     {
 					plyr.GetComponent<PlayerScript>().GetDame(damage);
@@ -509,12 +516,20 @@ public class BaseEnemy : MonoBehaviour {
                 }
                 break;
             case Enemy.RobotDog:
-                Hitcountdown(plyr.gethit);
+                timerdog -= Time.deltaTime;
+                timerhitdog -= Time.deltaTime;
                 if (timerdog <= 0)
                 {
-                    Pounce();
-                    plyr.GetComponent<PlayerScript>().GetDame(damage);
+                    speed *= 10;
+                    pounce = true;
                     timerdog = timerMax;
+                }
+                if (CheckValidDistance() && timerhitdog <= 0)
+                {
+                    pounce = false;
+                    speed = Basespeed * 2;
+                    plyr.GetComponent<PlayerScript>().GetDame(damage);
+                    timerhitdog = .5f;
                 }
                 break;
         }
