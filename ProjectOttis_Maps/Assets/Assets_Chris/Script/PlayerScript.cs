@@ -255,6 +255,7 @@ public class PlayerScript : MonoBehaviour {
 	private void Lower_Stamina()
 	{
 		BarS.GetComponent<Bar_Script> ().Value -= .1f;
+		GameObject Sound = Instantiate(SoundObj,this.gameObject.transform.position,Quaternion.Euler(0,0,0))as GameObject;
 	}
 
 	public void GetDame(float Dame)
@@ -265,6 +266,11 @@ public class PlayerScript : MonoBehaviour {
 			SceneManager.LoadScene ("LoseScene");
 		}
 		BarHP.GetComponent<Bar_Script> ().Value -= (Dame * .01f);
+	}
+
+	public bool IfRuning()
+	{
+		return running;
 	}
 
 	private void ReGain_Stamina()

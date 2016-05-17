@@ -51,6 +51,9 @@
      <Compile Include="Assets\Assets_Chris\Script\KeyScript.cs" />
      <Compile Include="Assets\Assets_Chris\Script\Over_All_Awareness_Bar_Script.cs" />
      <Compile Include="Assets\Assets_Chris\Script\PlayerScript.cs" />
+     <Compile Include="Assets\Assets_Chris\Script\SoundManager.cs" />
+     <Compile Include="Assets\Assets_Chris\Script\Sound_Script.cs" />
+     <Compile Include="Assets\Assets_Chris\Script\Sticks.cs" />
      <Compile Include="Assets\Assets_Chris\Script\WaterSpot_Script.cs" />
      <Compile Include="Assets\EnemyAssets\Scripts\BaseEnemy.cs" />
      <Compile Include="Assets\EnemyAssets\Scripts\BulletMoving.cs" />
