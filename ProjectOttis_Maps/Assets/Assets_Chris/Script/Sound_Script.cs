@@ -18,14 +18,14 @@ public class Sound_Script : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		if (UntilKillSelf == 0)
-		{
-			TurnOff ();
-		}
-		else
-		{
-			UntilKillSelf--;
-		}
+		//if (UntilKillSelf == 0)
+		//{
+		//	TurnOff ();
+		//}
+		//else
+		//{
+		//	UntilKillSelf--;
+		//}
 	}
 	void OnTriggerEnter2D(Collider2D _other)
 	{
@@ -40,16 +40,20 @@ public class Sound_Script : MonoBehaviour {
 	}
 	public void TurnOff()
 	{
-		this.gameObject.SetActive (false);
+		//this.gameObject.SetActive (false);
 		//SoundMade = false;
 		//this.gameObject.GetComponent<SpriteRenderer> ().enabled = false;
 	}
 	public void TurnON()
 	{
-		this.gameObject.SetActive (true);
+		//this.gameObject.SetActive (true);
 		//SoundMade = true;
 		//UntilKillSelf = 100;
 		//this.gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 	}
-
+	public void KILLSELF()
+	{
+		this.gameObject.SetActive (false);
+		Destroy (this);
+	}
 }
