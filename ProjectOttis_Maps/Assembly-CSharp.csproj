@@ -48,6 +48,7 @@
      <Compile Include="Assets\Assets_Chris\Script\Bar_Script.cs" />
      <Compile Include="Assets\Assets_Chris\Script\BushScript.cs" />
      <Compile Include="Assets\Assets_Chris\Script\DoorScript.cs" />
+     <Compile Include="Assets\Assets_Chris\Script\IconShower.cs" />
      <Compile Include="Assets\Assets_Chris\Script\KeyScript.cs" />
      <Compile Include="Assets\Assets_Chris\Script\Over_All_Awareness_Bar_Script.cs" />
      <Compile Include="Assets\Assets_Chris\Script\PlayerScript.cs" />

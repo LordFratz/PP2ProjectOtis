@@ -4,6 +4,8 @@ using System.Collections;
 public class KeyScript : MonoBehaviour {
 	[SerializeField]
 	int IDToKey;
+	[SerializeField]
+	GameObject IconChangeUIOnly;
     public AudioClip key;
     void OnTriggerEnter2D(Collider2D _other)
 	{
@@ -13,6 +15,7 @@ public class KeyScript : MonoBehaviour {
             PlayerScript play = _other.GetComponent<PlayerScript>();
 			play.SetKey (this.gameObject);
 			this.gameObject.SetActive (false);
+			IconChangeUIOnly.GetComponent<IconShower> ().PickedUp();
 		}
 	}
 
