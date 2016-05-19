@@ -336,8 +336,11 @@ public class BaseEnemy : MonoBehaviour {
     public void AddAlertBySound(float sound, Vector3 playerPos)
     {
         playerlastknown = playayaya.transform.position;
-        alertamount += sound;
-        CurrentMode = Modes.InvestigateMode;
+        //alertamount += sound;
+        if (CurrentMode != Modes.FollowMode && CurrentMode!= Modes.AlertMode)
+        {
+            CurrentMode = Modes.InvestigateMode;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D obj)
